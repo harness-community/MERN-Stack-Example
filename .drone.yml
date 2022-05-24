@@ -1,0 +1,94 @@
+kind: pipeline
+type: docker
+name: default
+
+trigger:
+  branch:
+  - main
+
+steps:
+  - name: test server
+    depends_on:
+    - clone
+    image: node:16
+    commands:
+    - cd server
+    - yarn install
+    - yarn test
+
+  - name: build server (dry run)
+    depends_on:
+    - test server
+    image: plugins/docker
+    settings:
+      dry_run: true
+      context: server
+      dockerfile: server/Dockerfile
+      username: octocat
+      repo: octocat/server
+      tags:
+      - latest
+      - ${DRONE_COMMIT_SHA:0:8}
+    when:
+      event:
+      - pull_request
+
+  - name: build client (dry run)
+    depends_on:
+    - clone
+    image: plugins/docker
+    settings:
+      dry_run: true
+      context: client
+      dockerfile: client/Dockerfile
+      build_args:
+        - SERVER_URI="http://example.com:5001"
+      username: octocat
+      repo: octocat/client
+      tags:
+      - latest
+      - ${DRONE_COMMIT_SHA:0:8}
+    when:
+      event:
+      - pull_request
+
+  - name: build server
+    depends_on:
+    - test server
+    image: plugins/docker
+    settings:
+      context: server
+      dockerfile: server/Dockerfile
+      username: tbd
+      password:
+        from_secret: docker_password
+      repo: tbd/server
+      tags:
+      - latest
+      - ${DRONE_COMMIT_SHA:0:8}
+    when:
+      event:
+      - promote
+      target:
+      - development
+
+  - name: build client
+    depends_on:
+    - clone
+    image: plugins/docker
+    settings:
+      context: client
+      dockerfile: client/Dockerfile
+      build_args_from_env: SERVER_URI
+      username: tbd
+      password:
+        from_secret: docker_password
+      repo: tbd/client
+      tags:
+      - latest
+      - ${DRONE_COMMIT_SHA:0:8}
+    when:
+      event:
+      - promote
+      target:
+      - development
