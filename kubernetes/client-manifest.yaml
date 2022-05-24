@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: jimsheldon/layercake-client:190239d3
+        image: tbd/client:190239d3
         resources:
           requests:
             cpu: "100m"

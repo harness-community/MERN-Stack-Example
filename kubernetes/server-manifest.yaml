@@ -7,7 +7,8 @@ metadata:
     service: server
 spec:
   type: LoadBalancer
-  loadBalancerIP: "104.196.63.243"
+  # replace with reserved IP
+  #loadBalancerIP: "104.196.63.243"
   ports:
   - port: 80
     name: http
@@ -34,7 +35,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: jimsheldon/layercake-server:190239d3
+        image: tbd/server
         env:
         - name: ATLAS_URI
           value: {{.Values.atlas_uri}}
