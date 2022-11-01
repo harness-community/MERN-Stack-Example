@@ -2,7 +2,7 @@
 
 ## What is this?
 
-[StackApps](https://github.com/harnessapps) strives to reflect modern best practices, but it's _goal_ isn't to educate you on how to write an application with any given stack. Instead, StackApps is the very simplest example of an application requiring multiple layers so that you (developers) can learn how to deploy a given stack using [Harness.io](https://harness.io)
+[StackApps](https://github.com/harness-apps) strives to reflect modern best practices, but it's _goal_ isn't to educate you on how to write an application with any given stack. Instead, StackApps is the very simplest example of an application requiring multiple layers so that you (developers) can learn how to deploy a given stack using [Harness.io](https://harness.io)
 
 Modern application stacks can be described very much like a layer cake. Each layer describing a different piece of the system overall. The StackApps project exists to provide sample application code written in a variety of 'stacks'. This repository holds the StackApps example for the MERN, or Mongo, Express, React and Node stack.
 
